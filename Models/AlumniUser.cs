@@ -5,7 +5,8 @@ namespace AlumniConnect.API.Models
     public class AlumniUser : IdentityUser
     {
         public string FullName { get; set; }
-        public string Promotion { get; set; }
+        public int PromotionId { get; set; }
+        public Promotion Promotion { get; set; }
         public string Profession { get; set; }
         public string? Bio { get; set; }
         public string? PhotoUrl { get; set; }

@@ -9,5 +9,8 @@ namespace AlumniConnect.API.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+        public DbSet<Temoignage> Temoignages { get; set; }
+
     }
 }

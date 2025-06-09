@@ -8,6 +8,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Net;
 using System.Net.Mail;
+using AlumniConnect.API.Data;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace AlumniConnect.API.Services
 {
@@ -15,27 +18,33 @@ namespace AlumniConnect.API.Services
     {
         private readonly UserManager<AlumniUser> _userManager;
         private readonly IConfiguration _config;
+        private readonly ApplicationDbContext _context;
 
-        public AuthService(UserManager<AlumniUser> userManager, IConfiguration config)
+        public AuthService(UserManager<AlumniUser> userManager, IConfiguration config, ApplicationDbContext context)
         {
             _userManager = userManager;
             _config = config;
+            _context = context;
         }
-
         public async Task<IdentityResult> RegisterAsync(RegisterDto dto)
         {
+            var promotion = await _context.Promotions.FindAsync(dto.PromotionId);
+            if (promotion == null)
+                return IdentityResult.Failed(new IdentityError { Description = "Promotion invalide." });
+
             var user = new AlumniUser
             {
                 UserName = dto.Email,
                 Email = dto.Email,
                 FullName = dto.FullName,
-                Promotion = dto.Promotion,
+                PromotionId = dto.PromotionId,
                 Profession = dto.Profession,
                 Bio = "",
                 PhotoUrl = ""
             };
             return await _userManager.CreateAsync(user, dto.Password);
         }
+
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(AlumniUser user)
         {
@@ -150,15 +159,29 @@ namespace AlumniConnect.API.Services
             await SendEmailAsync(user.Email, "OTP de réinitialisation", $"Votre code de réinitialisation est : {otp}");
         }
 
-
-        public string GenerateJwtToken(AlumniUser user)
+        public async Task<AlumniUser?> GetUserWithPromotionAsync(string userId)
         {
-            var claims = new[]
+            return await _context.Users
+                .Include(u => u.Promotion)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+
+        public async Task<string> GenerateJwtTokenAsync(AlumniUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("FullName", user.FullName ?? "")
             };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -172,5 +195,6 @@ namespace AlumniConnect.API.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

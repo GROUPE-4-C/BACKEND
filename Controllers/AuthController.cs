@@ -12,13 +12,18 @@ namespace AlumniConnect.API.Controllers
         }
 
         public async Task<IResult> Register(RegisterDto dto)
-            {
-                var result = await _service.RegisterAsync(dto);
-                if (!result.Succeeded)
-                    return Results.BadRequest(result.Errors);
+        {
+            var result = await _service.RegisterAsync(dto);
+            if (!result.Succeeded)
+                return Results.BadRequest(result.Errors);
 
-                return Results.Ok("Inscription réussie. Vérifiez votre email pour le code OTP.");
-            }
+            var user = await _service.FindByEmailAsync(dto.Email);
+            if (user != null)
+                await _service.GenerateAndSendOtpAsync(user);
+
+            return Results.Ok("Inscription réussie. Vérifiez votre email pour le code OTP.");
+        }
+
 
         public async Task<IResult> ConfirmEmail(ConfirmEmailDto dto)
         {
@@ -48,8 +53,12 @@ namespace AlumniConnect.API.Controllers
 
             if (!await _service.IsEmailConfirmedAsync(user))
                 return Results.BadRequest(new { message = "Email non confirmé. Vérifiez votre boîte mail pour le code OTP." });
+            if (user.Promotion == null)
+            {
+                user = await _service.GetUserWithPromotionAsync(user.Id);
+            }
 
-            var token = _service.GenerateJwtToken(user);
+            var token = await _service.GenerateJwtTokenAsync(user);
 
             return Results.Ok(new
             {
@@ -59,7 +68,7 @@ namespace AlumniConnect.API.Controllers
                     id = user.Id,
                     email = user.Email,
                     fullName = user.FullName,
-                    promotion = user.Promotion,
+                    promotion = user.Promotion?.Nom,
                     profession = user.Profession,
                     bio = user.Bio,
                     photoUrl = user.PhotoUrl,
@@ -67,6 +76,7 @@ namespace AlumniConnect.API.Controllers
                 }
             });
         }
+
 
         public async Task<IResult> RequestResetPasswordOtp(ResendOtpDto dto)
         {

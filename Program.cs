@@ -45,6 +45,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<PromotionService>();
+builder.Services.AddScoped<TemoignageService>();
 
 
 var app = builder.Build();
@@ -61,6 +63,10 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapAuthRoutes();
 app.MapEventRoutes();
+app.MapPromotionRoutes();
+app.MapTemoignageRoutes();
+
+await SeedData.InitializeAsync(app.Services);
 
 
 app.Run();
