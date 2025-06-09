@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlumniConnect.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe1b74610479552d74c1f0ebbdaed9f2cee82ff4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75da86ada47dc20966610ca2dabfb5a573d05c05")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlumniConnect.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlumniConnect.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

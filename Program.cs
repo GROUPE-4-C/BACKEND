@@ -39,10 +39,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EventService>();
+
 
 var app = builder.Build();
 
@@ -57,6 +60,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapAuthRoutes();
+app.MapEventRoutes();
 
 
 app.Run();
