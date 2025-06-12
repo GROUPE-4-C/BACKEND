@@ -47,6 +47,9 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<PromotionService>();
 builder.Services.AddScoped<TemoignageService>();
+// Après les autres routes
+builder.Services.AddScoped<EmploiService>();
+
 
 
 var app = builder.Build();
@@ -65,8 +68,11 @@ app.MapAuthRoutes();
 app.MapEventRoutes();
 app.MapPromotionRoutes();
 app.MapTemoignageRoutes();
+// Après les autres routes
+app.MapEmploiRoutes();
 
 await SeedData.InitializeAsync(app.Services);
 
 
-app.Run();
+// ⚠️ Définir explicitement le port 5175
+app.Run("http://localhost:5175");  // 👈 Ajoutez cette ligne
