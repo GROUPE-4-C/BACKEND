@@ -28,23 +28,15 @@ namespace AlumniConnect.API.Data
             // Configuration pour Emploi
             builder.Entity<Emploi>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                
                 entity.Property(e => e.Titre).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Description).HasMaxLength(2000);
                 entity.Property(e => e.Entreprise).IsRequired().HasMaxLength(150);
                 entity.Property(e => e.Localisation).HasMaxLength(100);
-                entity.Property(e => e.TypeContrat).HasMaxLength(50);
-                entity.Property(e => e.SalaireDevise).HasMaxLength(10);
-                entity.Property(e => e.Salaire).HasColumnType("decimal(18,2)");
-                entity.Property(e => e.UserId).IsRequired();
-                entity.Property(e => e.EstActif).HasDefaultValue(true);
 
                 // Index pour améliorer les performances
-                entity.HasIndex(e => e.UserId);
-                entity.HasIndex(e => e.EstActif);
                 entity.HasIndex(e => e.DateFin);
                 entity.HasIndex(e => e.Localisation);
-                entity.HasIndex(e => e.TypeContrat);
             });
         }
     }
