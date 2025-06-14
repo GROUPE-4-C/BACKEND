@@ -11,5 +11,6 @@ namespace AlumniConnect.API.DTOs
         public DateTime DateDebut { get; set; }
         public DateTime DateFin { get; set; }
         public string? ImageUrl { get; set; }
+        public string? PhotoUrl { get; set; }
     }
 }
