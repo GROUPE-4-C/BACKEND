@@ -47,7 +47,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<PromotionService>();
 builder.Services.AddScoped<TemoignageService>();
-
+builder.Services.AddScoped<EmploiService>();
 
 var app = builder.Build();
 
@@ -65,6 +65,7 @@ app.MapAuthRoutes();
 app.MapEventRoutes();
 app.MapPromotionRoutes();
 app.MapTemoignageRoutes();
+app.MapEmploiRoutes();
 
 await SeedData.InitializeAsync(app.Services);
 
