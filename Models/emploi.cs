@@ -1,4 +1,3 @@
-// Emploi.cs - Modèle corrigé
 using System;
 
 namespace AlumniConnect.API.Models
@@ -13,7 +12,7 @@ namespace AlumniConnect.API.Models
         public DateTime DateDebut { get; set; }
         public DateTime DateFin { get; set; }
         public string? ImageUrl { get; set; }
-        public string UserId { get; set; } // Ajouté pour lier à un utilisateur
-        public bool EstActif { get; set; } = true; // Décommenté
+        public string UserId { get; set; }
+        public bool EstActif { get; set; } = true;
     }
 }

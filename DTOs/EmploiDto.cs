@@ -1,5 +1,3 @@
-
-// EmploiDto.cs - DTO corrigé
 using System;
 
 namespace AlumniConnect.API.DTOs

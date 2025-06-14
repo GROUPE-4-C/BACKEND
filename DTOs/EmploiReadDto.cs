@@ -1,4 +1,3 @@
-// EmploiReadDto.cs - DTO de lecture corrigé
 using System;
 
 namespace AlumniConnect.API.DTOs

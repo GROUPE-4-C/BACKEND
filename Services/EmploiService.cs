@@ -1,5 +1,3 @@
-
-// EmploiService.cs - Service corrigé
 using System.Collections.Generic;
 using System.Linq;
 using AlumniConnect.API.Models;
@@ -142,7 +140,7 @@ namespace AlumniConnect.API.Services
         {
             var emploi = _context.Emplois.Find(id);
             if (emploi == null || emploi.UserId != userId) return false;
-            
+
             emploi.Titre = dto.Titre;
             emploi.Description = dto.Description;
             emploi.Entreprise = dto.Entreprise;
@@ -150,7 +148,7 @@ namespace AlumniConnect.API.Services
             emploi.DateDebut = dto.DateDebut;
             emploi.DateFin = dto.DateFin;
             emploi.ImageUrl = dto.ImageUrl;
-            
+
             _context.SaveChanges();
             return true;
         }
@@ -159,7 +157,7 @@ namespace AlumniConnect.API.Services
         {
             var emploi = _context.Emplois.Find(id);
             if (emploi == null || emploi.UserId != userId) return false;
-            
+
             _context.Emplois.Remove(emploi);
             _context.SaveChanges();
             return true;

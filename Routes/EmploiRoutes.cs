@@ -13,7 +13,6 @@ namespace AlumniConnect.API.Routes
     {
         public static void MapEmploiRoutes(this IEndpointRouteBuilder endpoints)
         {
-            // GET: public - tous les emplois
             endpoints.MapGet("/api/emplois", (EmploiService service) =>
             {
                 var controller = new EmploisController(service);
@@ -50,11 +49,11 @@ namespace AlumniConnect.API.Routes
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (userId == null) return Results.Unauthorized();
-                
+
                 var controller = new EmploisController(service);
                 if (!controller.Update(id, dto, userId))
                     return Results.Forbid();
-                
+
                 // Fetch the updated emploi to return as JSON
                 var updatedEmploi = controller.GetById(id);
                 return updatedEmploi != null ? Results.Ok(updatedEmploi) : Results.NotFound();
@@ -75,7 +74,7 @@ namespace AlumniConnect.API.Routes
                 var controller = new EmploisController(service);
                 if (!controller.Delete(id, userId))
                     return Results.Forbid();
-                
+
                 // Return a JSON confirmation
                 return Results.Ok(new { Message = $"Emploi with ID {id} successfully deleted." });
             });
