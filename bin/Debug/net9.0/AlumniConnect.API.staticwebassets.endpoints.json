@@ -1,5 +1,88 @@
 {
   "Version": 1,
   "ManifestType": "Build",
-  "Endpoints": []
+  "Endpoints": [
+    {
+      "Route": "images/profiles/fb450dc1-b1a2-4bbf-aaa7-b3b29c3394ca.jpg",
+      "AssetFile": "images/profiles/fb450dc1-b1a2-4bbf-aaa7-b3b29c3394ca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "368991"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fuFh24IQhZ/2UdghS/UGhFYyyyF3ydYoV97DFBFEMic=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 22 Jun 2025 01:33:56 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-fuFh24IQhZ/2UdghS/UGhFYyyyF3ydYoV97DFBFEMic="
+        }
+      ]
+    },
+    {
+      "Route": "images/profiles/fb450dc1-b1a2-4bbf-aaa7-b3b29c3394ca.u10ddohhqz.jpg",
+      "AssetFile": "images/profiles/fb450dc1-b1a2-4bbf-aaa7-b3b29c3394ca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "368991"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fuFh24IQhZ/2UdghS/UGhFYyyyF3ydYoV97DFBFEMic=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 22 Jun 2025 01:33:56 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u10ddohhqz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-fuFh24IQhZ/2UdghS/UGhFYyyyF3ydYoV97DFBFEMic="
+        },
+        {
+          "Name": "label",
+          "Value": "images/profiles/fb450dc1-b1a2-4bbf-aaa7-b3b29c3394ca.jpg"
+        }
+      ]
+    }
+  ]
 }

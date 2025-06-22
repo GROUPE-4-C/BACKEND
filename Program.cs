@@ -79,6 +79,8 @@ app.MapEventRoutes();
 app.MapPromotionRoutes();
 app.MapTemoignageRoutes();
 app.MapEmploiRoutes();
+app.UseStaticFiles();
+
 
 await SeedData.InitializeAsync(app.Services);
 
