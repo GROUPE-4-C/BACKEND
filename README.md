@@ -1,5 +1,9 @@
 # AlumniConnect.API
 
+
+      dotnet run --urls "http://0.0.0.0:5175"
+
+
 Backend ASP.NET Core pour le portail des anciens étudiants (Alumni).
 
 ## Fonctionnalités principales
