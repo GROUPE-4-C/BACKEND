@@ -32,6 +32,27 @@ namespace AlumniConnect.API.Services
             if (promotion == null)
                 return IdentityResult.Failed(new IdentityError { Description = "Promotion invalide." });
 
+            string photoUrl = null;
+            if (!string.IsNullOrEmpty(dto.PhotoBase64))
+            {
+                // Enlève le préfixe data: s'il existe
+                var base64 = dto.PhotoBase64;
+                var dataPrefix = "base64,";
+                var idx = base64.IndexOf(dataPrefix);
+                if (idx >= 0) base64 = base64.Substring(idx + dataPrefix.Length);
+
+                var bytes = Convert.FromBase64String(base64);
+
+                var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profiles");
+                Directory.CreateDirectory(folder);
+                var fileName = $"{Guid.NewGuid()}.jpg";
+                var filePath = Path.Combine(folder, fileName);
+
+                await File.WriteAllBytesAsync(filePath, bytes);
+
+                photoUrl = $"/images/profiles/{fileName}";
+            }
+
             var user = new AlumniUser
             {
                 UserName = dto.Email,
@@ -39,11 +60,13 @@ namespace AlumniConnect.API.Services
                 FullName = dto.FullName,
                 PromotionId = dto.PromotionId,
                 Profession = dto.Profession,
-                Bio = "",
-                PhotoUrl = ""
+                Bio = dto.Bio,
+                PhoneNumber = dto.PhoneNumber,
+                PhotoUrl = photoUrl
             };
             return await _userManager.CreateAsync(user, dto.Password);
         }
+
 
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(AlumniUser user)

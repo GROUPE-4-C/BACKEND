@@ -10,6 +10,7 @@ namespace AlumniConnect.API.Models
         public string Profession { get; set; }
         public string? Bio { get; set; }
         public string? PhotoUrl { get; set; }
+        public string? PhotoBase64 { get; set; }
 
         public string? EmailOtp { get; set; }
         public DateTime? EmailOtpExpiration { get; set; }

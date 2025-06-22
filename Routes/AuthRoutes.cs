@@ -38,6 +38,7 @@ namespace AlumniConnect.API.Routes
                 return await controller.RequestResetPasswordOtp(dto);
             });
 
+
             endpoints.MapPost("/api/auth/reset-password", async (ResetPasswordDto dto, AuthService service) =>
             {
                 var controller = new AuthController(service);
