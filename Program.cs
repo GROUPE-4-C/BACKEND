@@ -31,6 +31,7 @@ builder.Services.AddIdentity<AlumniUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,7 +51,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<AuthService>();
@@ -58,6 +63,7 @@ builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<PromotionService>();
 builder.Services.AddScoped<TemoignageService>();
 builder.Services.AddScoped<EmploiService>();
+builder.Services.AddScoped<AlumniService>();
 
 var app = builder.Build();
 
@@ -79,6 +85,7 @@ app.MapEventRoutes();
 app.MapPromotionRoutes();
 app.MapTemoignageRoutes();
 app.MapEmploiRoutes();
+app.MapAlumniRoutes();
 app.UseStaticFiles();
 
 

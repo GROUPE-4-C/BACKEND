@@ -14,5 +14,10 @@ namespace AlumniConnect.API.Controllers
 
         public IEnumerable<AlumniUser> Search(int? promotionId, string? profession)
             => _service.Search(promotionId, profession);
+
+        public async Task<AlumniUser?> GetById(string id)
+            => await _service.GetAlumniByIdAsync(id);
+
     }
+
 }
