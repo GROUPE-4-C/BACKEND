@@ -64,6 +64,7 @@ builder.Services.AddScoped<PromotionService>();
 builder.Services.AddScoped<TemoignageService>();
 builder.Services.AddScoped<EmploiService>();
 builder.Services.AddScoped<AlumniService>();
+builder.Services.AddScoped<ExperienceService>();
 
 var app = builder.Build();
 
@@ -86,6 +87,7 @@ app.MapPromotionRoutes();
 app.MapTemoignageRoutes();
 app.MapEmploiRoutes();
 app.MapAlumniRoutes();
+app.MapExperienceRoutes();
 app.UseStaticFiles();
 
 
