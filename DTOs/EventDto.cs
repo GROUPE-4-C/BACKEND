@@ -8,6 +8,7 @@ namespace AlumniConnect.API.DTOs
         public string Description { get; set; }
         public string Location { get; set; }
         public string Organizer { get; set; }
+        public string? ImageBase64 { get; set; }
         public string? ImageUrl { get; set; }
     }
 }

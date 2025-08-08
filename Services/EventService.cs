@@ -4,6 +4,8 @@ using AlumniConnect.API.Models;
 using AlumniConnect.API.DTOs;
 using AlumniConnect.API.Data;
 using System;
+using System.Text.RegularExpressions;
+using System.IO;
 using Microsoft.AspNetCore.Identity;
 
 namespace AlumniConnect.API.Services
@@ -66,6 +68,32 @@ namespace AlumniConnect.API.Services
 
         public Event CreateEvent(EventDto dto, string userId)
         {
+            string? imageUrl = null;
+
+            // Traitement de l'image base64
+            if (!string.IsNullOrEmpty(dto.ImageBase64))
+            {
+                var match = Regex.Match(dto.ImageBase64, @"data:image/(?<type>.+?);base64,(?<data>.+)");
+                if (match.Success)
+                {
+                    var base64Data = match.Groups["data"].Value;
+                    var bytes = Convert.FromBase64String(base64Data);
+
+                    var fileName = $"{Guid.NewGuid()}.jpg";
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/events");
+                    Directory.CreateDirectory(uploads);
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    File.WriteAllBytes(filePath, bytes);
+
+                    imageUrl = $"/images/events/{fileName}";
+                }
+            }
+            else
+            {
+                imageUrl = dto.ImageUrl;
+            }
+
             var ev = new Event
             {
                 Title = dto.Title,
@@ -73,7 +101,7 @@ namespace AlumniConnect.API.Services
                 Date = DateTime.UtcNow,
                 Location = dto.Location,
                 Organizer = dto.Organizer,
-                ImageUrl = dto.ImageUrl,
+                ImageUrl = imageUrl,
                 UserId = userId
             };
             _context.Events.Add(ev);
@@ -105,11 +133,38 @@ namespace AlumniConnect.API.Services
         {
             var ev = _context.Events.Find(id);
             if (ev == null || ev.UserId != userId) return false;
+
+            string? imageUrl = ev.ImageUrl;
+
+            // Traitement de l'image base64 pour update
+            if (!string.IsNullOrEmpty(dto.ImageBase64))
+            {
+                var match = Regex.Match(dto.ImageBase64, @"data:image/(?<type>.+?);base64,(?<data>.+)");
+                if (match.Success)
+                {
+                    var base64Data = match.Groups["data"].Value;
+                    var bytes = Convert.FromBase64String(base64Data);
+
+                    var fileName = $"{Guid.NewGuid()}.jpg";
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/events");
+                    Directory.CreateDirectory(uploads);
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    File.WriteAllBytes(filePath, bytes);
+
+                    imageUrl = $"/images/events/{fileName}";
+                }
+            }
+            else if (!string.IsNullOrEmpty(dto.ImageUrl))
+            {
+                imageUrl = dto.ImageUrl;
+            }
+
             ev.Title = dto.Title;
             ev.Description = dto.Description;
             ev.Location = dto.Location;
             ev.Organizer = dto.Organizer;
-            ev.ImageUrl = dto.ImageUrl;
+            ev.ImageUrl = imageUrl;
             _context.SaveChanges();
             return true;
         }

@@ -4,6 +4,8 @@ using AlumniConnect.API.Models;
 using AlumniConnect.API.DTOs;
 using AlumniConnect.API.Data;
 using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 
 namespace AlumniConnect.API.Services
@@ -97,6 +99,31 @@ namespace AlumniConnect.API.Services
 
         public Emploi CreateEmploi(EmploiDto dto, string userId)
         {
+            string? imageUrl = null;
+
+            if (!string.IsNullOrEmpty(dto.ImageBase64))
+            {
+                var match = Regex.Match(dto.ImageBase64, @"data:image/(?<type>.+?);base64,(?<data>.+)");
+                if (match.Success)
+                {
+                    var base64Data = match.Groups["data"].Value;
+                    var bytes = Convert.FromBase64String(base64Data);
+
+                    var fileName = $"{Guid.NewGuid()}.jpg";
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/emplois");
+                    Directory.CreateDirectory(uploads);
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    File.WriteAllBytes(filePath, bytes);
+
+                    imageUrl = $"/images/emplois/{fileName}";
+                }
+            }
+            else
+            {
+                imageUrl = dto.ImageUrl;
+            }
+
             var emploi = new Emploi
             {
                 Titre = dto.Titre,
@@ -105,7 +132,7 @@ namespace AlumniConnect.API.Services
                 Localisation = dto.Localisation,
                 DateDebut = dto.DateDebut,
                 DateFin = dto.DateFin,
-                ImageUrl = dto.ImageUrl,
+                ImageUrl = imageUrl,
                 UserId = userId,
                 EstActif = true
             };
@@ -141,13 +168,38 @@ namespace AlumniConnect.API.Services
             var emploi = _context.Emplois.Find(id);
             if (emploi == null || emploi.UserId != userId) return false;
 
+            string? imageUrl = emploi.ImageUrl;
+
+            if (!string.IsNullOrEmpty(dto.ImageBase64))
+            {
+                var match = Regex.Match(dto.ImageBase64, @"data:image/(?<type>.+?);base64,(?<data>.+)");
+                if (match.Success)
+                {
+                    var base64Data = match.Groups["data"].Value;
+                    var bytes = Convert.FromBase64String(base64Data);
+
+                    var fileName = $"{Guid.NewGuid()}.jpg";
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/emplois");
+                    Directory.CreateDirectory(uploads);
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    File.WriteAllBytes(filePath, bytes);
+
+                    imageUrl = $"/images/emplois/{fileName}";
+                }
+            }
+            else if (!string.IsNullOrEmpty(dto.ImageUrl))
+            {
+                imageUrl = dto.ImageUrl;
+            }
+
             emploi.Titre = dto.Titre;
             emploi.Description = dto.Description;
             emploi.Entreprise = dto.Entreprise;
             emploi.Localisation = dto.Localisation;
             emploi.DateDebut = dto.DateDebut;
             emploi.DateFin = dto.DateFin;
-            emploi.ImageUrl = dto.ImageUrl;
+            emploi.ImageUrl = imageUrl;
 
             _context.SaveChanges();
             return true;
