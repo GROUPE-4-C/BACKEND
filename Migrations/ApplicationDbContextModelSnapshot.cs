@@ -121,6 +121,9 @@ namespace AlumniConnect.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DateDebut")
                         .HasColumnType("TEXT");
 

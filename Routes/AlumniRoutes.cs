@@ -2,6 +2,7 @@ using AlumniConnect.API.Controllers;
 using AlumniConnect.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using AlumniConnect.API.DTOs;
 
 namespace AlumniConnect.API.Routes
 {

@@ -38,14 +38,15 @@ namespace AlumniConnect.API.Routes
                 return Results.Created($"/api/events/{ev.Id}", ev);
             });
 
-            // PUT: protégé
-            endpoints.MapPut("/api/events/{id:guid}", [Authorize] (Guid id, EventDto dto, EventService service, ClaimsPrincipal user) =>
-            {
-                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (userId == null) return Results.Unauthorized();
-                var controller = new EventsController(service);
-                return controller.Update(id, dto, userId) ? Results.NoContent() : Results.Forbid();
-            });
+            endpoints.MapPut("/api/events/{id:guid}",
+                (Guid id, EventDto dto, EventService service, ClaimsPrincipal user) =>
+                {
+                    var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                    if (userId == null) return Results.Unauthorized();
+                    var updated = service.UpdateEvent(id, dto, userId);
+                    return updated ? Results.NoContent() : Results.Forbid();
+                }
+            ).RequireAuthorization();
 
             // GET: events by userId (public)
             endpoints.MapGet("/api/events/user/{userId}", (string userId, EventService service) =>

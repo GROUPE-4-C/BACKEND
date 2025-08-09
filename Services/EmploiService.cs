@@ -43,7 +43,8 @@ namespace AlumniConnect.API.Services
                     UserId = e.UserId,
                     CreatorName = user?.FullName ?? "",
                     CreatorEmail = user?.Email ?? "",
-                    EstActif = e.EstActif
+                    EstActif = e.EstActif,
+                    CreatedAt = e.CreatedAt
                 };
             }).ToList();
         }
@@ -70,7 +71,8 @@ namespace AlumniConnect.API.Services
                     UserId = e.UserId,
                     CreatorName = user?.FullName ?? "",
                     CreatorEmail = user?.Email ?? "",
-                    EstActif = e.EstActif
+                    EstActif = e.EstActif,
+                    CreatedAt = e.CreatedAt
                 };
             }).ToList();
         }
@@ -93,7 +95,8 @@ namespace AlumniConnect.API.Services
                 UserId = e.UserId,
                 CreatorName = user?.FullName ?? "",
                 CreatorEmail = user?.Email ?? "",
-                EstActif = e.EstActif
+                EstActif = e.EstActif,
+                CreatedAt = e.CreatedAt
             };
         }
 
@@ -159,7 +162,8 @@ namespace AlumniConnect.API.Services
                 UserId = e.UserId,
                 CreatorName = user?.FullName ?? "",
                 CreatorEmail = user?.Email ?? "",
-                EstActif = e.EstActif
+                EstActif = e.EstActif,
+                CreatedAt = e.CreatedAt
             }).ToList();
         }
 

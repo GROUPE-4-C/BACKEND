@@ -16,5 +16,6 @@ namespace AlumniConnect.API.DTOs
         public string CreatorName { get; set; } = string.Empty;
         public string CreatorEmail { get; set; } = string.Empty;
         public bool EstActif { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

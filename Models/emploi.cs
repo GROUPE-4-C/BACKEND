@@ -14,5 +14,6 @@ namespace AlumniConnect.API.Models
         public string? ImageUrl { get; set; }
         public string UserId { get; set; }
         public bool EstActif { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
